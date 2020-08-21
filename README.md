@@ -43,7 +43,19 @@ There are couple scenarios where GCP offer different price points for products. 
 However for this guide, we will assume you need to find the **highest** rate for all SKUs for your reporting needs. To do that, we need to run a query in the table created [above](#Importing-Data-to-BigQuery-(BQ)). Since we are after the highest possible price point for the dataset, we can leverage SQL to query the data for those values. NOTE: you will need to change to query below with your table information.   
 
 ```
-    SELECT A.Google_service, A.Service_description, A.SKU_ID, A.SKU_description, A.Geo_taxonomy_regions, A.Unit_description, A.Per_unit_quantity, A.List_price____ as USD  FROM `<update me dataset name>.<update me table name>` as A  inner join (select SKU_ID as SKU, MAX(List_price____) as MAX_PRICE from `<update me dataset name>.<update me table name>` group by SKU_ID) as B on A.SKU_ID = B.SKU and A.List_price____ = B.MAX_PRICE
+    SELECT 
+        A.Google_service, A.Service_description, 
+        A.SKU_ID, A.SKU_description, 
+        A.Geo_taxonomy_regions, 
+        A.Unit_description, 
+        A.Per_unit_quantity, 
+        A.List_price____ as USD  
+    FROM `<update me dataset name>.<update me table name>` as A  
+    inner join 
+        (select SKU_ID as SKU, MAX(List_price____) as MAX_PRICE from `<update me dataset name>.<update me table name>` group by SKU_ID) as B 
+    on 
+        A.SKU_ID = B.SKU and 
+        A.List_price____ = B.MAX_PRICE
 ```
 
 you can see above that the query did not fetch every column rom the table. For this guide, I fetched columns necessary for my report. Please get familiar with the columns and adjust to your business requirements accordingly. You can change the order of the returned columns and names to conform to your data needs. I used a inner join based on SKU and Price leveraging the function [MAX](https://cloud.google.com/dataprep/docs/html/MAX-Function_57344665) in BQ. Once complete, you've successfully filtered the table to show unique SKUs with the highest Price listed. 
@@ -63,7 +75,24 @@ Follow instructions to export and import the dataset to BQ previously. When prev
 We'll adjust the query from the [SKUs filter](#Filter-different-prices-for-SKUs) to include an additional field for region. In the sample use case, we will filter for products only in **North America**. Note that there are quite a number of GCP SKUs that are not geo based. We include those SKUs in our example by including rows with **null** for **Geo_taxonomy_regions** column. In the query we use BQ function [REGEXP_CONTAINS](https://cloud.google.com/bigquery/docs/reference/standard-sql/functions-and-operators#regexp_contains) to look at the **Geo_taxonomy_regions** column for key words. We also use BQ function [LOWER](https://cloud.google.com/bigquery/docs/reference/standard-sql/functions-and-operators#lower) to handle casing differences if any. Once your query is executed, your result set will be filtered based on Geo of your selection. Use the example query below as reference:  
 
 ```
-    SELECT A.Google_service, A.Service_description, A.SKU_ID, A.SKU_description, A.Geo_taxonomy_regions, A.Unit_description, A.Per_unit_quantity, A.List_price____ as USD  FROM `mling-control-plane-demo.gcp_mpl.test_table` as A  inner join (select SKU_ID as SKU, MAX(List_price____) as MAX_PRICE from `mling-control-plane-demo.gcp_mpl.test_table` group by SKU_ID) as B on A.SKU_ID = B.SKU and A.List_price____ = B.MAX_PRICE where (REGEXP_CONTAINS(LOWER(A.Geo_taxonomy_regions), r"us|northamerica") or A.Geo_taxonomy_regions is null)
+    SELECT 
+        A.Google_service, 
+        A.Service_description, 
+        A.SKU_ID, A.SKU_description, 
+        A.Geo_taxonomy_regions, 
+        A.Unit_description, 
+        A.Per_unit_quantity, 
+        A.List_price____ as USD  
+    FROM 
+        `<update me dataset name>.<update me table name>` as A  
+    inner join 
+        (select SKU_ID as SKU, MAX(List_price____) as MAX_PRICE from `<update me dataset name>.<update me table name>` group by SKU_ID) as B 
+    on 
+        A.SKU_ID = B.SKU and 
+        A.List_price____ = B.MAX_PRICE 
+    where 
+        (REGEXP_CONTAINS(LOWER(A.Geo_taxonomy_regions), r"us|northamerica") or 
+        A.Geo_taxonomy_regions is null)
 ```  
 
   

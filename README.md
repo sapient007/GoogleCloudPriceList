@@ -4,7 +4,7 @@ This guide walks you through how to make use of GCP prices from your cloud conso
 
 Why do we need to do this? GCP has ~ 20,000 different SKUs available for end users to consume. For various organizations, it's often required to produce a list of usable SKUs as a part of RFP. This guide will help you get the prices filtered and arranged in the format that is required. 
 
-Why do we use BigQuery? GCP has several price tiers for the same SKU. This repo attempts to guide users to filter out those products to have a single representation for a SKU
+Why do we use BigQuery? GCP has several price tiers for the same SKU. This repo attempts to guide users to filter out those products to have a single representation for a SKU. Additionally BQ has a bunch of nice export tools to various data formats as well as connections to products like Google sheets. It offers us a good platform to store the data and connections for other people to use. 
 
 ---
 

@@ -40,7 +40,7 @@ Once the import is complete. You should see the table on the left navigation win
 ### Filter different prices for SKUs  
 There are couple scenarios where GCP offer different price points for products. GCP products (i.e. storage, API calls, Network egress ...) will have different price points based on consumption. GCP will often have a Free Tier where cost for consumption is $0.  
 
-![Duplicate SKUs Table](images/Import_CSV_to_BQ_table.png "Import table")  
+![Duplicate SKUs Table](images/Duplicate_SKUs.png "Import table")  
 
 However for this guide, we will assume you need to find the **highest** rate for all SKUs for your reporting needs. To do that, we need to run a query in the table created [above](#importing-data-to-bigquery-bq). Since we are after the highest possible price point for the dataset, we can leverage SQL to query the data for those values. NOTE: you will need to change to query below with your table information.   
 

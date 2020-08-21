@@ -13,10 +13,12 @@ this section guides you through the manual process to download, sort and export 
 
 ### Export Price List From GCP Console to local disk  
 As the project owner for GCP, open your browser to the [Cloud Console](https://console.cloud.google.com). From there, navigate to **Billing** and then select **Pricing**. In the pricing view select option to **View all SKUs** and validate that a table is populated below with approximately 21,000 rows. Select the **Download CSV** icon the save the price list to your local computer.  
-
+  
 ![Billing Console](images/BillingConsole.png)  
+  
+  
 ![SKUs Export](images/price_export.png)  
-
+  
 ### Importing Data to BigQuery (BQ)  
 As BigQuery admin, open your browser to [BigQuery](https://console.cloud.google.com/bigquery/). If you have not created a **Dataset** before, create one by selecting your project and click on **Create Dataset**.   
 

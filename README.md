@@ -42,7 +42,7 @@ There are couple scenarios where GCP offer different price points for products. 
 
 ![Duplicate SKUs Table](images/Import_CSV_to_BQ_table.png "Import table")  
 
-However for this guide, we will assume you need to find the **highest** rate for all SKUs for your reporting needs. To do that, we need to run a query in the table created [above](#Importing-Data-to-BigQuery-(BQ)). Since we are after the highest possible price point for the dataset, we can leverage SQL to query the data for those values. NOTE: you will need to change to query below with your table information.   
+However for this guide, we will assume you need to find the **highest** rate for all SKUs for your reporting needs. To do that, we need to run a query in the table created [above](#importing-data-to-bigquery-bq). Since we are after the highest possible price point for the dataset, we can leverage SQL to query the data for those values. NOTE: you will need to change to query below with your table information.   
 
 ```
     SELECT 

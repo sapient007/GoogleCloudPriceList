@@ -7,7 +7,6 @@ Why do we need to do this? GCP has ~ 20,000 different SKUs available for end use
 Why do we use BigQuery? GCP has several price tiers for the same SKU. This repo attempts to guide users to filter out those products to have a single representation for a SKU
 
 ---
----
 
 ## Manual Process  
 this section guides you through the manual process to download, sort and export the GCP price data. Skip this section if you wish to automate the process

@@ -107,4 +107,16 @@ BQ makes export your query results very easy. Click on **Save Results** and sele
 ---
 
 ## Automated Process
-**UNDER CONSTRUCTION**
+Steps above are good to understand but has a lot of manual parts. As engineers, we all want to be lazy and make these toil go away. This sections attempts to automate the process so we can do this automagically. The method described in this guide is by no means definitive. there are other ways to solve the same problem.
+
+### Automation via Concourse  
+
+[Concourse](https://concourse-ci.org/) is a popular CI/CD tool that is easy to use and setup. It does require some additional software install but in my view it provides a fairly solid and quick prototype environment. Simplest method to spin up a Concourse instance is to start with a [GKE](https://cloud.google.com/kubernetes-engine) cluster and use [Helm Charts](https://github.com/concourse/concourse-chart) to deploy Concourse itself. Follow instructions on [Concourse site](https://concourse-ci.org/install.html) on how to configure your instance for external access.  
+
+### Pre Requisites  
+* GCS  
+* GKE  
+* BQ
+* Concourse
+
+

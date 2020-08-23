@@ -1,4 +1,4 @@
-# Generating a custom Google Cloud Price List  
+# Generating a custom Google Cloud price List 
     
 This guide walks you through how to make use of GCP prices from your cloud console. This guide maybe useful for users that has a need to publish all GCP prices for their organization on a regular basis. This guide serves as a set of examples to filter, sort and export the GCP price data
 

@@ -62,7 +62,7 @@ For this guide, we will assume you need to find the **highest** rate for all SKU
 
 you can see above that the query did not fetch every column rom the table. For this guide, I fetched columns necessary for my report. Please get familiar with the columns and adjust to your business requirements accordingly. You can change the order of the returned columns and names to conform to your data needs. I used a inner join based on SKU and Price leveraging the function [MAX](https://cloud.google.com/dataprep/docs/html/MAX-Function_57344665) in BQ. Once complete, you've successfully filtered the table to show unique SKUs with the highest Price listed. 
 
-### OPTIONAL: Filter Geo based SKUs 
+### OPTIONAL: Filter SKUs 
 Continue with this section if you require additional filter for regional SKUS, i.e. US based only products.  
 
 By default, the GCP price list does now show regions for the SKUs. However you can optionally include that field if you need to filter the SKUs by region. To do that, in [Previous Step](#Export-price-list-from-gcp-console-to-local-disk), click on the option to view all data fields and ensure **Geo taxonomy regions** is selected.  

@@ -97,6 +97,42 @@ We'll adjust the query from the [SKUs filter](#Filter-different-prices-for-SKUs)
         A.Geo_taxonomy_regions is null)
 ```  
 
+What if we need to further filter out specific product types and or SKUS? We can also complete this task in BigQuery by changing the query above slightly. In this example, we will introduce 2 scenarios for a) exclude products and SKUs listed in the Google Cloud Marketplace and b) exclude products and SKUs belonging to Google Maps.   
+
+to exclude products and SKUs from the GCP marketplace, add the string below to your query:  
+
+```NOT (regexp_contains(A.Product_taxonomy, r'GCP > Marketplace Services'))```  
+
+to exclude products and SKUs from the Google Maps family of SKUs, add the string below to your query:  
+
+```NOT A.Google_service = 'Maps' ```  
+
+putting it all together, if we need to filter the SKU dataset all all the example conditions listed above, we can execute the query below as a reference:  
+
+```
+    SELECT 
+        A.Google_service, 
+        A.Service_description, 
+        A.SKU_ID, A.SKU_description, 
+        A.Geo_taxonomy_regions, 
+        A.Unit_description, 
+        A.Per_unit_quantity, 
+        A.List_price____ as USD  
+    FROM 
+        `<update me dataset name>.<update me table name>` as A  
+    inner join 
+        (select SKU_ID as SKU, MAX(List_price____) as MAX_PRICE from `<update me dataset name>.<update me table name>` group by SKU_ID) as B 
+    on 
+        A.SKU_ID = B.SKU and 
+        A.List_price____ = B.MAX_PRICE 
+    where 
+        (REGEXP_CONTAINS(LOWER(A.Geo_taxonomy_regions), r"us|northamerica") or 
+        A.Geo_taxonomy_regions is null)
+        and
+        NOT (regexp_contains(A.Product_taxonomy, r'GCP > Marketplace Services'))
+        and
+        NOT A.Google_service = 'Maps'
+```
   
 ### Export the results  
 BQ makes export your query results very easy. Click on **Save Results** and select the format the location. Options are CSV, JSON, BQ table or clipboard.  

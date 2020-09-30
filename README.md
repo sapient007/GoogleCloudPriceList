@@ -101,11 +101,11 @@ What if we need to further filter out specific product types and or SKUS? We can
 
 to exclude products and SKUs from the GCP marketplace, add the string below to your query:  
 
-```NOT (regexp_contains(A.Product_taxonomy, r'GCP > Marketplace Services'))```  
+```     NOT (regexp_contains(A.Product_taxonomy, r'GCP > Marketplace Services'))```  
 
 to exclude products and SKUs from the Google Maps family of SKUs, add the string below to your query:  
 
-```NOT A.Google_service = 'Maps' ```  
+```     NOT A.Google_service = 'Maps' ```  
 
 putting it all together, if we need to filter the SKU dataset all all the example conditions listed above, we can execute the query below as a reference:  
 

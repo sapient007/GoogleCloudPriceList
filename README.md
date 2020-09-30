@@ -54,7 +54,8 @@ For this guide, we will assume you need to find the **highest** rate for all SKU
         A.List_price____ as USD  
     FROM `<update me dataset name>.<update me table name>` as A  
     inner join 
-        (select SKU_ID as SKU, MAX(List_price____) as MAX_PRICE from `<update me dataset name>.<update me table name>` group by SKU_ID) as B 
+        (select SKU_ID as SKU, MAX(List_price____) as MAX_PRICE 
+            from `<update me dataset name>.<update me table name>` group by SKU_ID) as B 
     on 
         A.SKU_ID = B.SKU and 
         A.List_price____ = B.MAX_PRICE
@@ -88,7 +89,8 @@ We'll adjust the query from the [SKUs filter](#Filter-different-prices-for-SKUs)
     FROM 
         `<update me dataset name>.<update me table name>` as A  
     inner join 
-        (select SKU_ID as SKU, MAX(List_price____) as MAX_PRICE from `<update me dataset name>.<update me table name>` group by SKU_ID) as B 
+        (select SKU_ID as SKU, MAX(List_price____) as MAX_PRICE 
+            from `<update me dataset name>.<update me table name>` group by SKU_ID) as B 
     on 
         A.SKU_ID = B.SKU and 
         A.List_price____ = B.MAX_PRICE 

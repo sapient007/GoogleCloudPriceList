@@ -95,7 +95,7 @@ We'll adjust the query from the [SKUs filter](#Filter-different-prices-for-SKUs)
         A.SKU_ID = B.SKU and 
         A.List_price____ = B.MAX_PRICE 
     where 
-        (REGEXP_CONTAINS(LOWER(A.Geo_taxonomy_regions), r"us|northamerica") or 
+        (REGEXP_CONTAINS(LOWER(A.Geo_taxonomy_regions), r"us-|northamerica") or 
         A.Geo_taxonomy_regions is null)
 ```  
 

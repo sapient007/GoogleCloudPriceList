@@ -132,7 +132,7 @@ putting it all together, if we need to filter the SKU dataset all all the exampl
         A.SKU_ID = B.SKU and 
         A.List_price____ = B.MAX_PRICE 
     where 
-        (REGEXP_CONTAINS(LOWER(A.Geo_taxonomy_regions), r"us|northamerica") or 
+        (REGEXP_CONTAINS(LOWER(A.Geo_taxonomy_regions), r"us-|northamerica") or 
         A.Geo_taxonomy_regions is null)
         and
         NOT (regexp_contains(A.Product_taxonomy, r'GCP > Marketplace Services'))

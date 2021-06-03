@@ -144,7 +144,7 @@ this query exmaple below shows how to extract all "northamerica" and/or "us-" ba
 ```
 
 #### Filter OCONUS Based SKUs
-this query exmaple below shows how to extract all skus that does not have a `us-` region flag for SKUS outside of the United States (OCONUS)
+this query exmaple below shows how to extract all skus that does *NOT* have a `us-` region flag for SKUS outside of the United States (OCONUS)
 ```
     SELECT 
         A.Google_service, 

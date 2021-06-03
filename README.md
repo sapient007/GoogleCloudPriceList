@@ -37,7 +37,7 @@ Once the import is complete. You should see the table on the left navigation win
     SELECT count(*) FROM `<update me dataset name>.<update me table name>` 
 ``` 
 
-### Filter different prices for SKUs  
+### Filter various prices for SKUs  (Making Sense of the GCP pricing model)
 There are couple scenarios where GCP offer different price points for products. GCP products (i.e. storage, API calls, Network egress ...) will have different price points based on consumption. GCP will often have a Free Tier where cost for consumption is $0. However since many systems and organizations can only have a single price per SKU, we need to do some filtering to make the data useful.
 
 ![Duplicate SKUs Table](images/Duplicate_SKUs.png "Import table")  
@@ -63,7 +63,7 @@ For this guide, we will assume you need to find the **highest** rate for all SKU
 
 you can see above that the query did not fetch every column rom the table. For this guide, I fetched columns necessary for my report. Please get familiar with the columns and adjust to your business requirements accordingly. You can change the order of the returned columns and names to conform to your data needs. I used a inner join based on SKU and Price leveraging the function [MAX](https://cloud.google.com/dataprep/docs/html/MAX-Function_57344665) in BQ. Once complete, you've successfully filtered the table to show unique SKUs with the highest Price listed. 
 
-### OPTIONAL: Filter SKUs 
+### OPTIONAL: Filter SKUs by RRegion
 Continue with this section if you require additional filter for regional SKUS, i.e. US based only products.  
 
 By default, the GCP price list does now show regions for the SKUs. However you can optionally include that field if you need to filter the SKUs by region. To do that, in [Previous Step](#Export-price-list-from-gcp-console-to-local-disk), click on the option to view all data fields and ensure **Geo taxonomy regions** is selected.  
@@ -113,7 +113,10 @@ to exclude products and SKUs from the Google Maps family of SKUs, add the string
     NOT A.Google_service = 'Maps'
 ```  
 
-putting it all together, if we need to filter the SKU dataset all all the example conditions listed above, we can execute the query below as a reference:  
+putting it all together, if we need to filter the SKU dataset all all the example conditions listed above, we can execute the query below as a references:
+
+#### Filter CONUS and North America Based SKUs
+this query exmaple below shows how to extract all "northamerica" and/or "us-" based skus for GCP. Update the filter `us-|northamerica` to fine tune the query
 
 ```
     SELECT 
@@ -139,6 +142,35 @@ putting it all together, if we need to filter the SKU dataset all all the exampl
         and
         NOT A.Google_service = 'Maps'
 ```
+
+#### Filter OCONUS Based SKUs
+this query exmaple below shows how to extract all skus that does not have a `us-` region flag for SKUS outside of the United States (OCONUS)
+```
+    SELECT 
+        A.Google_service, 
+        A.Service_description, 
+        A.SKU_ID, A.SKU_description, 
+        A.Geo_taxonomy_regions, 
+        A.Unit_description, 
+        A.Per_unit_quantity, 
+        A.List_price____ as USD  
+    FROM 
+        `carahsoft-price-export.gcp_prices.gcp_sku_export` as A  
+    inner join 
+        (select SKU_ID as SKU, MAX(List_price____) as MAX_PRICE from `carahsoft-price-export.gcp_prices.gcp_sku_export` group by SKU_ID) as B 
+    on 
+        A.SKU_ID = B.SKU and 
+        A.List_price____ = B.MAX_PRICE 
+    where 
+        (NOT REGEXP_CONTAINS(LOWER(A.Geo_taxonomy_regions), r"us-") or 
+        A.Geo_taxonomy_regions is null)
+        and
+        NOT (regexp_contains(A.Product_taxonomy, r'GCP > Marketplace Services'))
+        and
+        NOT A.Google_service = 'Maps'
+```
+
+
   
 ### Export the results  
 BQ makes export your query results very easy. Click on **Save Results** and select the format the location. Options are CSV, JSON, BQ table or clipboard.  

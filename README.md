@@ -157,7 +157,7 @@ this query exmaple below shows how to extract all skus that does *NOT* have a `u
     FROM 
         `carahsoft-price-export.gcp_prices.gcp_sku_export` as A  
     inner join 
-        (select SKU_ID as SKU, MAX(List_price____) as MAX_PRICE from `carahsoft-price-export.gcp_prices.gcp_sku_export` group by SKU_ID) as B 
+        (select SKU_ID as SKU, MAX(List_price____) as MAX_PRICE from `<update me dataset name>.<update me table name>` group by SKU_ID) as B 
     on 
         A.SKU_ID = B.SKU and 
         A.List_price____ = B.MAX_PRICE 

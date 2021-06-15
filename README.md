@@ -143,6 +143,45 @@ this query exmaple below shows how to extract all "northamerica" and/or "us-" ba
         NOT A.Google_service = 'Maps'
 ```
 
+
+#### Further filter CONUS Based SKUS elminiating network realted SKUS
+the following example takes a step further by looking at network traffic and filter out some keywords associated with city/country/region that may not be of interest. In this example, we filter out any SKUs with a descriptopn that contains words in the list 
+
+```
+r'mumbai|akarta|singapore|hong kong|delhi|china|india|asia pacific based|asiapacfic|asia pacific|apac'
+```
+this serves as an exmaple on how to filter out certain SKUs. 
+
+example:
+
+```
+    SELECT 
+        A.Google_service, 
+        A.Service_description, 
+        A.SKU_ID, A.SKU_description, 
+        A.Geo_taxonomy_regions, 
+        A.Unit_description, 
+        A.Per_unit_quantity, 
+        A.List_price____ as USD  
+    FROM 
+        `<update me dataset name>.<update me table name>` as A  
+    inner join 
+        (select SKU_ID as SKU, MAX(List_price____) as MAX_PRICE from `<update me dataset name>.<update me table name>` group by SKU_ID) as B 
+    on 
+        A.SKU_ID = B.SKU and 
+        A.List_price____ = B.MAX_PRICE 
+    where 
+        (REGEXP_CONTAINS(LOWER(A.Geo_taxonomy_regions), r"us-|northamerica") or 
+        A.Geo_taxonomy_regions is null)
+        and
+        NOT (regexp_contains(A.Product_taxonomy, r'GCP > Marketplace Services'))
+        and
+        NOT A.Google_service = 'Maps'
+        and (NOT regexp_contains(LOWER(A.SKU_description)  , r'mumbai|akarta|singapore|hong kong|delhi|china|india|asia pacific based|asiapacfic|asia pacific|apac'))
+```
+
+
+
 #### Filter OCONUS Based SKUs
 this query exmaple below shows how to extract all skus that does *NOT* have a `us-` region flag for SKUS outside of the United States (OCONUS)
 ```

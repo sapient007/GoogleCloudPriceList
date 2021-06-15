@@ -148,7 +148,7 @@ this query exmaple below shows how to extract all "northamerica" and/or "us-" ba
 the following example takes a step further by looking at network traffic and filter out some keywords associated with city/country/region that may not be of interest. In this example, we filter out any SKUs with a descriptopn that contains words in the list 
 
 ```
-r'mumbai|akarta|singapore|hong kong|delhi|china|india|asia pacific based|asiapacfic|asia pacific|apac'
+r'mumbai|jakarta|singapore|hong kong|delhi|china|india|asia pacific based|asiapacfic|asia pacific|apac'
 ```
 this serves as an exmaple on how to filter out certain SKUs. 
 
@@ -177,7 +177,7 @@ example:
         NOT (regexp_contains(A.Product_taxonomy, r'GCP > Marketplace Services'))
         and
         NOT A.Google_service = 'Maps'
-        and (NOT regexp_contains(LOWER(A.SKU_description)  , r'mumbai|akarta|singapore|hong kong|delhi|china|india|asia pacific based|asiapacfic|asia pacific|apac'))
+        and (NOT regexp_contains(LOWER(A.SKU_description)  , r'mumbai|jakarta|singapore|hong kong|delhi|china|india|asia pacific based|asiapacfic|asia pacific|apac'))
 ```
 
 

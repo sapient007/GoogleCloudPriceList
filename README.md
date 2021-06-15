@@ -155,7 +155,7 @@ this query exmaple below shows how to extract all skus that does *NOT* have a `u
         A.Per_unit_quantity, 
         A.List_price____ as USD  
     FROM 
-        `carahsoft-price-export.gcp_prices.gcp_sku_export` as A  
+        `<update me dataset name>.<update me table name>` as A  
     inner join 
         (select SKU_ID as SKU, MAX(List_price____) as MAX_PRICE from `<update me dataset name>.<update me table name>` group by SKU_ID) as B 
     on 
